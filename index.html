@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toko Belanja Lokal</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header>
+      <h1>Toko Belanja Lokal</h1>
+      <p>Dukung produk asli Indonesia 🇮🇩</p>
+    </header>
+
+    <!-- Bagian Iklan -->
+    <section class="iklan">
+      <!-- Pastikan nama file dan folder sesuai -->
+      <img src="assets/image/iklanpromo.png" alt="Iklan Produk Lokal" />
+      <div class="teks-iklan">
+        <h2>Promo Spesial Oktober!</h2>
+        <p>
+          Diskon hingga <strong>50%</strong> untuk semua produk lokal.<br />
+          Dukung UMKM Indonesia dan belanja dengan bangga 🇮🇩
+        </p>
+        <button onclick="alert('Promo berlaku sampai 31 Oktober!')">
+          Belanja Sekarang
+        </button>
+      </div>
+    </section>
+
+    <!-- Bagian Utama -->
+    <main>
+      <!-- Produk-produk Lokal -->
+      <section class="produk-container">
+        <div class="produk">
+          <img src="assets/image/bentenan.jpeg" alt="Kain Bentanan" />
+          <h3>Kain Bentanan Sulawesi</h3>
+          <p>Rp200.000</p>
+          <button onclick="tambahKeDompet(200000)">Beli</button>
+        </div>
+
+        <div class="produk">
+          <img src="assets/image/tenun.jpg" alt="Kain Tenun NTT" />
+          <h3>Kain Tenun NTT</h3>
+          <p>Rp300.000</p>
+          <button onclick="tambahKeDompet(300000)">Beli</button>
+        </div>
+
+        <div class="produk">
+          <img src="assets/image/minyaktawaang.jpg" alt="Minyak Tawang" />
+          <h3>Minyak Tawang Asli</h3>
+          <p>Rp120.000</p>
+          <button onclick="tambahKeDompet(50000)">Beli</button>
+        </div>
+      </section>
+
+      <!-- Dompet Digital -->
+      <section class="dompet">
+        <h2>Dompet Digital Kamu</h2>
+        <p>Saldo: <span id="saldo">Rp 500.000</span></p>
+        <button onclick="isiSaldo()">Isi Saldo</button>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2025 Toko Belanja Lokal — Cinta Produk Indonesia 🇮🇩</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+  </body>
+</html>

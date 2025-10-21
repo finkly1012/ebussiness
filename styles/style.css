@@ -1,0 +1,123 @@
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  background-color: #fff8f0;
+  color: #333;
+}
+
+/* === HEADER === */
+header {
+  text-align: center;
+  background-color: #d72638;
+  color: white;
+  padding: 20px;
+}
+
+/* === BAGIAN IKLAN === */
+.iklan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff5f5;
+  border-bottom: 2px solid #d72638;
+  border-radius: 15px;
+  padding: 30px;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin: 30px auto;
+  width: 80%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.iklan img {
+  width: 350px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.teks-iklan {
+  max-width: 420px;
+}
+
+.teks-iklan h2 {
+  color: #d72638;
+  font-size: 1.8em;
+  margin-bottom: 10px;
+}
+
+.teks-iklan p {
+  font-size: 1.1em;
+  line-height: 1.4;
+  color: #444;
+}
+
+.teks-iklan button {
+  background-color: #d72638;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.teks-iklan button:hover {
+  background-color: #b31e2f;
+}
+
+/* === PRODUK === */
+.produk-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 30px;
+}
+
+.produk {
+  background: white;
+  border: 2px solid #d72638;
+  border-radius: 10px;
+  width: 220px;
+  text-align: center;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.produk img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+button {
+  background-color: #d72638;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #b31e2f;
+}
+
+/* === DOMPET DIGITAL === */
+.dompet {
+  text-align: center;
+  margin: 40px;
+  background: #ffe8e0;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* === FOOTER === */
+footer {
+  text-align: center;
+  background: #222;
+  color: white;
+  padding: 15px;
+  margin-top: 40px;
+}
