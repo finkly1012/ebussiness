@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toko Belanja Lokal</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #fff8f6;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #d72638;
+        color: white;
+        text-align: center;
+        padding: 20px 10px;
+      }
+      nav a {
+        color: white;
+        background-color: #b91c1c;
+        margin: 5px;
+        padding: 8px 15px;
+        border-radius: 6px;
+        text-decoration: none;
+      }
+      nav a:hover {
+        background-color: #a4161a;
+      }
+      .produk-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin: 30px auto;
+        max-width: 1000px;
+      }
+      .produk {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        width: 200px;
+        text-align: center;
+      }
+      .produk img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .produk button {
+        margin-top: 6px;
+        background: #d72638;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 12px;
+        cursor: pointer;
+      }
+      .produk button:hover {
+        background: #b91c1c;
+      }
+      .dompet {
+        background: #ffecec;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 30px auto;
+        width: 80%;
+      }
+      footer {
+        background: #d72638;
+        color: white;
+        text-align: center;
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ===== Header ===== -->
+    <header>
+      <h1>Toko Belanja Lokal 🇮🇩</h1>
+      <p>Dukung produk asli Indonesia</p>
+      <nav>
+        <a href="#produk">Produk</a>
+        <a href="#about">Tentang Kami</a>
+      </nav>
+    </header>
+
+    <!-- ===== Promo ===== -->
+    <section style="text-align: center; background: #fff0f0; padding: 20px">
+      <h2>Promo Spesial November!</h2>
+      <p>Diskon hingga <strong>50%</strong> untuk produk lokal 🇮🇩</p>
+      <button
+        onclick="window.scrollTo({ top: document.body.scrollHeight / 3, behavior:'smooth' })"
+      >
+        Belanja Sekarang
+      </button>
+    </section>
+
+    <!-- ===== Produk ===== -->
+    <main>
+      <h2 id="produk" style="text-align: center; color: #d72638">
+        Daftar Produk Lokal
+      </h2>
+      <section id="daftar-produk" class="produk-container">
+        <!-- Produk dimuat via JS -->
+      </section>
+
+      <section class="dompet">
+        <h2>🛒 Keranjang Belanja</h2>
+        <div id="daftar-keranjang">
+          <p>Keranjang masih kosong.</p>
+        </div>
+        <p id="total-harga">Total: Rp 0</p>
+        <button id="btn-bayar">Bayar Sekarang</button>
+
+        <h3>💰 Dompet Digital Kamu</h3>
+        <p>Saldo: <span id="saldo">Rp 500.000</span></p>
+        <button onclick="isiSaldo()">Isi Saldo</button>
+      </section>
+    </main>
+
+    <!-- ===== Tentang Kami ===== -->
+    <section id="about" style="padding: 30px; text-align: center">
+      <h2>Tentang Kami</h2>
+      <p>
+        <strong>Toko Belanja Lokal</strong> mendukung produk-produk lokal
+        Indonesia 🇮🇩
+      </p>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+      <p>© 2025 Toko Belanja Lokal — Bangga Buatan Indonesia 🇮🇩</p>
+    </footer>
+
+    <!-- ===== Midtrans Snap (Sandbox) ===== -->
+    <script
+      type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="{{ client_key }}"
+    ></script>
+
+    <!-- ===== Script Lokal ===== -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
