@@ -6,97 +6,86 @@ let keranjang = [];
 // Guard to prevent calling snap.pay while a popup is already open
 let snapOpen = false;
 
-// ========================================================
-// 📦 Daftar Produk Lokal
-// ========================================================
-const produkList = [
+const DEFAULT_PRODUCTS = [
   {
-    nama: "Keripik Pisang Lampung",
-    kategori: "makanan",
-    harga: 25000,
-    stok: 20,
-    gambar:
+    id: "keripik-pisang",
+    name: "Keripik Pisang Lampung",
+    category: "makanan",
+    price: 25000,
+    stock: 20,
+    image:
       "https://down-id.img.susercontent.com/file/id-11134207-7r98w-lvts4lmly9hpe8",
   },
   {
-    nama: "Abon Ikan Cakalang",
-    kategori: "makanan",
-    harga: 45000,
-    stok: 15,
-    gambar:
+    id: "abon-cakalang",
+    name: "Abon Ikan Cakalang",
+    category: "makanan",
+    price: 45000,
+    stock: 15,
+    image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8PCVoJQojHOykfiLj4r2Zn2eHKnettsPipA&s",
   },
   {
-    nama: "Sabun Herbal Bali",
-    kategori: "kecantikan",
-    harga: 55000,
-    stok: 10,
-    gambar:
+    id: "sabun-herbal",
+    name: "Sabun Herbal Bali",
+    category: "kecantikan",
+    price: 55000,
+    stock: 10,
+    image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4xdc4ga6kkmAu2pveUKhd75x64i5dOrgKcA&s",
   },
   {
-    nama: "Lulur Tradisional Jawa",
-    kategori: "kecantikan",
-    harga: 45000,
-    stok: 8,
-    gambar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST7xxyJ5LSOkvB_oQqBaFkZcHj3H5P-gRFvQ&s",
-  },
-  {
-    nama: "Batik Pria Pekalongan",
-    kategori: "pakaian",
-    harga: 170000,
-    stok: 7,
-    gambar:
+    id: "batik-pria",
+    name: "Batik Pria Pekalongan",
+    category: "pakaian",
+    price: 170000,
+    stock: 7,
+    image:
       "https://img.lazcdn.com/g/ff/kf/S1145d8bbc71b4ecd92299200c6b994a6o.jpg_720x720q80.jpg",
   },
   {
-    nama: "Rok Lilit Batik",
-    kategori: "pakaian",
-    harga: 85000,
-    stok: 5,
-    gambar:
-      "https://www.riantybatik.co.id/wp-content/uploads/2024/06/RIANTY-BATIK-ROK-LILIT-DEYANA-SOGAN-1.webp",
-  },
-  {
-    nama: "Taplak Meja Tenun",
-    kategori: "rumah tangga",
-    harga: 140000,
-    stok: 6,
-    gambar:
-      "https://www.tokotenun.com/wp-content/uploads/2025/04/A1252-TT-TAPLAK-MEJA-BIRU.jpeg",
-  },
-  {
-    nama: "Bantal Tenun Etnik",
-    kategori: "rumah tangga",
-    harga: 85000,
-    stok: 9,
-    gambar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpfSJzQUp9as8vtIqkSvzAgRsswB0GvAaWlw&s",
-  },
-  {
-    nama: "Tas Rotan Bali",
-    kategori: "kerajinan",
-    harga: 150000,
-    stok: 10,
-    gambar:
+    id: "tas-rotan",
+    name: "Tas Rotan Bali",
+    category: "kerajinan",
+    price: 150000,
+    stock: 10,
+    image:
       "https://img.lazcdn.com/g/p/5fe28ffb68afafee0c578a444947581b.png_720x720q80.png_.webp",
   },
-  {
-    nama: "Keranjang Rotan Lombok",
-    kategori: "kerajinan",
-    harga: 220000,
-    stok: 7,
-    gambar:
-      "https://www.kerajinan-bali.com/image-product/img1412-1642496793.jpg",
-  },
 ];
+
+let produkList = DEFAULT_PRODUCTS.map((item) => ({ ...item }));
 
 // ========================================================
 // 💰 Format Rupiah
 // ========================================================
 function formatRupiah(angka) {
-  return "Rp " + angka.toLocaleString("id-ID");
+  const value = Number(angka) || 0;
+  return "Rp " + value.toLocaleString("id-ID");
+}
+
+async function loadProducts() {
+  try {
+    const response = await fetch("/api/products");
+    if (!response.ok) throw new Error("Gagal memuat daftar produk dari server");
+    const data = await response.json();
+    if (Array.isArray(data.products) && data.products.length > 0) {
+      produkList = data.products.map((item) => ({
+        id: item.id,
+        name: item.name,
+        category: item.category || "umum",
+        price: Number(item.price) || 0,
+        stock: Number(item.stock) || 0,
+        image: item.image,
+      }));
+    } else {
+      produkList = DEFAULT_PRODUCTS.map((item) => ({ ...item }));
+    }
+  } catch (err) {
+    console.warn("Gagal memuat data produk dari API, menggunakan fallback lokal", err);
+    produkList = DEFAULT_PRODUCTS.map((item) => ({ ...item }));
+  }
+  tampilkanProduk();
 }
 
 // ========================================================
@@ -109,7 +98,7 @@ function tampilkanProduk(kategori = "semua") {
   const produkFilter =
     kategori === "semua"
       ? produkList
-      : produkList.filter((p) => p.kategori === kategori);
+      : produkList.filter((p) => p.category === kategori);
 
   if (produkFilter.length === 0) {
     container.innerHTML = `<p style="color:#d72638;text-align:center;">Tidak ada produk untuk kategori ${kategori}</p>`;
@@ -119,13 +108,13 @@ function tampilkanProduk(kategori = "semua") {
   produkFilter.forEach((p, i) => {
     const div = document.createElement("div");
     div.className = "produk produk-card";
-    div.setAttribute("data-kategori", p.kategori);
+    div.setAttribute("data-kategori", p.category);
 
     div.innerHTML = `
-      <img src="${p.gambar}" alt="${p.nama}" />
-      <h3>${p.nama}</h3>
-      <p>${formatRupiah(p.harga)}</p>
-      <p><small>Stok: ${p.stok}</small></p>
+      <img src="${p.image}" alt="${p.name}" />
+      <h3>${p.name}</h3>
+      <p>${formatRupiah(p.price)}</p>
+      <p><small>Stok: ${p.stock}</small></p>
       <button onclick="tambahKeranjang(${i})">+ Keranjang</button>
     `;
     container.appendChild(div);
@@ -138,12 +127,12 @@ function tampilkanProduk(kategori = "semua") {
 function tambahKeranjang(i) {
   const p = produkList[i];
   if (!p) return;
-  if (p.stok <= 0) return alert("Stok habis!");
+  if (p.stock <= 0) return alert("Stok habis!");
   keranjang.push({ ...p });
-  p.stok--;
+  p.stock--;
   tampilkanKeranjang();
   tampilkanProduk();
-  alert(`${p.nama} ditambahkan ke keranjang!`);
+  alert(`${p.name} ditambahkan ke keranjang!`);
 }
 
 // ========================================================
@@ -161,11 +150,11 @@ function tampilkanKeranjang() {
 
   let total = 0;
   keranjang.forEach((p, i) => {
-    total += p.harga;
+    total += p.price;
     const item = document.createElement("div");
     item.className = "cart-item";
     item.innerHTML = `
-      <span>${p.nama} - ${formatRupiah(p.harga)}</span>
+      <span>${p.name} - ${formatRupiah(p.price)}</span>
       <button onclick="hapusDariKeranjang(${i})" class="hapus-btn">Hapus</button>
     `;
     container.appendChild(item);
@@ -185,8 +174,8 @@ function tampilkanKeranjang() {
 function hapusDariKeranjang(index) {
   const item = keranjang[index];
   if (!item) return;
-  const produk = produkList.find((p) => p.nama === item.nama);
-  if (produk) produk.stok++;
+  const produk = produkList.find((p) => p.id === item.id);
+  if (produk) produk.stock++;
   keranjang.splice(index, 1);
   tampilkanKeranjang();
   tampilkanProduk();
@@ -197,26 +186,44 @@ function hapusDariKeranjang(index) {
 // ========================================================
 async function bayar() {
   if (keranjang.length === 0) return alert("Keranjang kosong!");
-  const total = keranjang.reduce((sum, p) => sum + p.harga, 0);
+  const total = keranjang.reduce((sum, p) => sum + p.price, 0);
+
+  const grouped = {};
+  keranjang.forEach((item) => {
+    if (!grouped[item.id]) {
+      grouped[item.id] = { id: item.id, quantity: 0 };
+    }
+    grouped[item.id].quantity += 1;
+  });
+
+  const checkoutItems = Object.values(grouped);
 
   const btn = document.getElementById("btn-bayar");
   if (btn) btn.disabled = true;
 
   try {
-    // Use relative path so the app works on any host/port (dev or deployed)
-    const response = await fetch("/create-transaction", {
+    const response = await fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        total: total,
-        nama: "Pelanggan Lokal",
-        email: "pelanggan@example.com",
+        items: checkoutItems,
+        customer: {
+          first_name: "Pelanggan",
+          last_name: "Lokal",
+          email: "pelanggan@example.com",
+          phone: "+628123456789",
+        },
       }),
     });
 
-    if (!response.ok) throw new Error("Gagal menghubungi server Flask");
-
     const data = await response.json();
+    if (!response.ok) {
+      const message = data.error || "Gagal menghubungi server Flask";
+      throw new Error(message);
+    }
+    if (data.error) {
+      throw new Error(data.error);
+    }
     console.log("🎫 Token Midtrans:", data);
 
     // Jalankan Snap popup
@@ -231,8 +238,8 @@ async function bayar() {
         // Simulate success result object similar to what Snap would return
         const fakeResult = {
           status_message: "Success (mock)",
-          transaction_id: data.order_id || `MOCK-${Date.now()}`,
-          order_id: data.order_id || null,
+          transaction_id: data.orderId || `MOCK-${Date.now()}`,
+          order_id: data.orderId || null,
           payment_type: "mock",
         };
         alert("✅ (Mock) Pembayaran berhasil (simulasi)");
@@ -258,6 +265,7 @@ async function bayar() {
         console.warn(
           "Snap popup already open - ignoring duplicate pay request"
         );
+        if (btn) btn.disabled = false;
         return;
       }
 
@@ -292,13 +300,15 @@ async function bayar() {
         },
       });
     } else {
-      alert("⚠️ Token transaksi tidak ditemukan. Cek server Flask!");
+      const message = data.error || "⚠️ Token transaksi tidak ditemukan. Cek server Flask!";
+      alert(message);
       console.error("Response tanpa token:", data);
       if (btn) btn.disabled = false;
     }
   } catch (err) {
     console.error("❌ Error koneksi:", err);
-    alert("Gagal terhubung ke server Flask. Pastikan server berjalan!");
+    alert(err.message || "Gagal terhubung ke server Flask. Pastikan server berjalan!");
+    if (btn) btn.disabled = false;
   } finally {
     // don't re-enable here; button will be re-enabled by snap callbacks
   }
@@ -331,7 +341,7 @@ function updateSaldo() {
 // 🚀 Inisialisasi Saat Halaman Dimuat
 // ========================================================
 document.addEventListener("DOMContentLoaded", () => {
-  tampilkanProduk();
+  loadProducts();
   tampilkanKeranjang();
   updateSaldo();
   // Pasang handler pembayaran dari fungsi `bayar` di file ini
